@@ -1,7 +1,7 @@
 import React from "react";
 import cryst1 from "../../assets/home/presale.png";
 import cryst2 from "../../assets/home/crystal2.png";
-import cryst3 from "../../assets/home/crystal3.png";
+// import cryst3 from "../../assets/home/crystal3.png";
 
 const HeroSection = () => {
   return (
@@ -43,20 +43,20 @@ const HeroSection = () => {
           <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl mt-6 sm:mt-10 gap-6">
             
             {/* Text content */}
-            <div className="md:w-1/2 text-center md:text-left px-2 sm:px-4 text-base sm:text-lg md:text-xl lg:text-2xl">
+            <div className="md:w-11/12 text-center md:text-left px-2 sm:px-4 text-base sm:text-lg md:text-xl lg:text-2xl">
               <p className="leading-relaxed tracking-wide">
                 <strong>NEBULUX</strong> is the native cryptocurrency of the <strong>Prestatrix</strong> ecosystem—designed to power a new era of decentralized finance. Built on a secure and scalable blockchain infrastructure, NEBULUX integrates seamlessly with our platform's features, offering users real utility, speed, and low transaction costs.
               </p>
             </div>
 
             {/* Crystal 3 image */}
-            <div className="md:w-1/2 flex justify-center">
+            {/* <div className="md:w-1/2 flex justify-center">
               <img
                 src={cryst3}
                 alt="Crystal 3"
                 className="w-[12rem] sm:w-[18rem] md:w-[22rem] lg:w-[30rem] transition-transform duration-500 hover:scale-105"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

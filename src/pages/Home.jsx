@@ -31,6 +31,7 @@ import NextGenSection from "../Components/HomeComponents/NextGenSection ";
 import Testimonials from "../Components/HomeComponents/Testimonials";
 import DecentralizedFuture2 from "../Components/HomeComponents/DecentralizedFuture2";
 import FAQSection from "../Components/HomeComponents/FAQSection";
+import CryptoMiningMarketplace from "../Components/HomeComponents/CryptoMiningMarketplace ";
 
 
 
@@ -70,7 +71,8 @@ const Home = () => {
 <div className="w-full text-white bg-white">
         <OurTopIntegration />
         <div className="p-5">
-          <ProductSection />
+          {/* <ProductSection /> */}
+          <CryptoMiningMarketplace/>
         </div>
      <ServiceSection />
         <FeatureSection />

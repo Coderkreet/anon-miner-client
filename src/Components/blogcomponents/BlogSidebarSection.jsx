@@ -247,8 +247,7 @@ export default function BlogContentSection() {
             isVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
           }`}>
             <div className="sticky top-8 space-y-6">
-              {/* Author Card */}
-              <div className="bg-slate-800/50 rounded-xl p-6 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500">
+              {/* <div className="bg-slate-800/50 rounded-xl p-6 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
                     JD
@@ -256,9 +255,8 @@ export default function BlogContentSection() {
                   <h4 className="text-white font-semibold mb-2">John Doe</h4>
                   <p className="text-gray-400 text-sm">Content Creator & Blogger</p>
                 </div>
-              </div>
+              </div> */}
 
-              {/* Popular Posts */}
               <div className="bg-slate-800/50 rounded-xl p-6 backdrop-blur-sm border border-slate-700/50">
                 <h4 className="text-white font-semibold mb-4">Popular Posts</h4>
                 <div className="space-y-3">

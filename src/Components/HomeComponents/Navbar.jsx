@@ -16,6 +16,7 @@ import {
 import appLogo from '../../assets/app/appLogo.png'
 import { useNavigate } from 'react-router-dom';
 import { AuthRoutes } from '../../context/Routes';
+import { FaBlog, FaProductHunt } from 'react-icons/fa';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -40,9 +41,9 @@ const navigate = useNavigate();
   // Sidebar menu items
   const menuItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Info, label: 'Product', path: AuthRoutes.PRODUCT },
-    { icon: Phone, label: 'Blog', path: AuthRoutes.BLOG },
-    { icon: Settings, label: 'Contact', path: AuthRoutes.CONTACT },
+    { icon: FaProductHunt, label: 'Product', path: AuthRoutes.PRODUCT },
+    { icon: FaBlog, label: 'Blog', path: AuthRoutes.BLOG },
+    { icon: Phone, label: 'Contact', path: AuthRoutes.CONTACT },
   ];
 
   return (

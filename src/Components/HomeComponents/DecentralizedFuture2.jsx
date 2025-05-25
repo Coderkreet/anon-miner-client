@@ -1,22 +1,75 @@
-
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import b1 from "../../assets/website/Group 1321317423.png";
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { FaChevronDown } from "react-icons/fa";
 
-const data = [
-  { name: "Mon", value: 41000 },
-  { name: "Tue", value: 34500 },
-  { name: "Wed", value: 50000 },
-  { name: "Thu", value: 62500 },
-  { name: "Thu", value: 47500 },
-  { name: "Thu", value: 32500 },
-  { name: "Fri", value: 61800 },
-  { name: "Sat", value: 43000 },
-  { name: "Sun", value: 62458 },
-];
-
 const DecentralizedFuture2 = () => {
+  const [chartData, setChartData] = useState([]);
+  const [marketData, setMarketData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const intervalRef = useRef(null);
+  const isActiveRef = useRef(true);
+
+  const fetchMarketData = async () => {
+    if (!isActiveRef.current) return;
+    
+    try {
+      // Fetch 24hr ticker data
+      const tickerResponse = await fetch(
+        `https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT`
+      );
+      const ticker = await tickerResponse.json();
+
+      // Fetch 1-day klines for area chart
+      const klineResponse = await fetch(
+        `https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=24`
+      );
+      const klines = await klineResponse.json();
+
+      if (!isActiveRef.current) return;
+
+      // Format chart data
+      const formattedChartData = klines.map((k) => ({
+        name: new Date(k[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        value: parseFloat(k[4]), // Using close price
+      }));
+
+      setMarketData(ticker);
+      setChartData(formattedChartData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching market data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    isActiveRef.current = true;
+    fetchMarketData();
+    
+    // Update data every 3 seconds
+    intervalRef.current = setInterval(() => {
+      if (isActiveRef.current) {
+        fetchMarketData();
+      }
+    }, 3000);
+
+    return () => {
+      isActiveRef.current = false;
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  const currentPrice = marketData ? parseFloat(marketData.lastPrice).toFixed(2) : "--";
+  const priceChangePercent = marketData ? parseFloat(marketData.priceChangePercent).toFixed(2) : "--";
+  const isPositive = marketData ? parseFloat(marketData.priceChangePercent) > 0 : false;
+  const highPrice = marketData ? parseFloat(marketData.highPrice).toFixed(2) : "--";
+  const lowPrice = marketData ? parseFloat(marketData.lowPrice).toFixed(2) : "--";
+  const volume = marketData ? parseFloat(marketData.volume).toLocaleString() : "--";
+  const quoteVolume = marketData ? parseFloat(marketData.quoteVolume).toLocaleString() : "--";
+
   return (
     <section className="relative w-full bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden">
       {/* Background decorations */}
@@ -61,10 +114,10 @@ const DecentralizedFuture2 = () => {
                   </div>
                   <div>
                     <p className="text-white font-bold text-xl lg:text-2xl">
-                      1 BTC = $62,458.00
+                      1 BTC = ${currentPrice}
                     </p>
-                    <p className="text-green-400 text-sm font-medium">
-                      +2.5% (24h)
+                    <p className={`${isPositive ? 'text-green-400' : 'text-red-400'} text-sm font-medium`}>
+                      {isPositive ? '+' : ''}{priceChangePercent}% (24h)
                     </p>
                   </div>
                 </div>
@@ -78,7 +131,7 @@ const DecentralizedFuture2 = () => {
               {/* Chart */}
               <div className="h-64 sm:h-80 lg:h-96 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                     <defs>
                       <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#38B7EA" stopOpacity={0.8} />
@@ -121,19 +174,19 @@ const DecentralizedFuture2 = () => {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-700/50">
                 <div className="text-center">
                   <p className="text-slate-400 text-sm">24h High</p>
-                  <p className="text-white font-bold text-lg">$65,250</p>
+                  <p className="text-white font-bold text-lg">${highPrice}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-slate-400 text-sm">24h Low</p>
-                  <p className="text-white font-bold text-lg">$58,900</p>
+                  <p className="text-white font-bold text-lg">${lowPrice}</p>
                 </div>
                 <div className="text-center">
                   <p className="text-slate-400 text-sm">Volume</p>
-                  <p className="text-white font-bold text-lg">2.4B</p>
+                  <p className="text-white font-bold text-lg">{volume}</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-slate-400 text-sm">Market Cap</p>
-                  <p className="text-white font-bold text-lg">1.2T</p>
+                  <p className="text-slate-400 text-sm">Quote Volume</p>
+                  <p className="text-white font-bold text-lg">{quoteVolume}</p>
                 </div>
               </div>
             </div>
