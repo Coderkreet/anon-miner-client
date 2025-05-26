@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [payload, setPayload] = useState({
-    username: "",
+    mail_id: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
@@ -31,10 +31,10 @@ const Login = () => {
   const validateForm = () => {
     let newErrors = {};
     let isValid = true;
-    const nameError = nameValidator(payload.username);
+    const nameError = nameValidator(payload.mail_id);
     const passwordError = passwordValidator(payload.password);
     if (nameError) {
-      newErrors.username = "username can't be empty.";
+      newErrors.mail_id = "mail_id can't be empty.";
       isValid = false;
     }
     if (passwordError) {
@@ -103,17 +103,17 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-white mb-2">
+            <label htmlFor="mail_id" className="block text-sm font-medium text-white mb-2">
               Email ID
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="mail_id"
+              name="mail_id"
               placeholder="Enter your Email"
-              value={payload.username}
+              value={payload.mail_id}
               onChange={handleChange}
-              autoComplete="username"
+              autoComplete="mail_id"
               className="w-full px-3 py-3 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
